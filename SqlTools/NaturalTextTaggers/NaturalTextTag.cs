@@ -2,8 +2,8 @@
 
 namespace SqlTools.NaturalTextTaggers
 {
-	class NaturalTextTag : ITag
-	{
-		public State State { get; set; }
-	}
+    class NaturalTextTag : ITag
+    {
+        public State State { get; set; }
+    }
 }

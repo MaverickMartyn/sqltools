@@ -1,14 +1,11 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Classification;
+using Microsoft.VisualStudio.Text.Tagging;
+using SqlTools.NaturalTextTaggers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows.Media;
-using Microsoft.VisualStudio.PlatformUI;
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Formatting;
-using Microsoft.VisualStudio.Text.Tagging;
-using SqlTools.NaturalTextTaggers;
 
 namespace SqlTools.Classifiers
 {
@@ -255,16 +252,16 @@ namespace SqlTools.Classifiers
             }
 
             return RemoveSpansInsideCommentsAndOutsideSnapshotSpan(classifiedSpans, span);
-                }
+        }
 
         private IList<ClassificationSpan> RemoveSpansInsideCommentsAndOutsideSnapshotSpan(IList<ClassificationSpan> classifiedSpans, SnapshotSpan snapshotSpan)
         {
             var comments = classifiedSpans.Where(cs => cs.ClassificationType == commentType);
             var others = classifiedSpans.Except(comments);
-            return classifiedSpans.Where(cs => 
+            return classifiedSpans.Where(cs =>
                 cs.Span.OverlapsWith(snapshotSpan)
                 && (cs.ClassificationType == commentType || !comments.Any(c => c.Span.OverlapsWith(cs.Span)))).ToList();
-            }
+        }
 
         private bool IsInMultiLineComment(string text)
         {

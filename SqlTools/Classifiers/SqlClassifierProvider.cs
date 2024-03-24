@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 using SqlTools.NaturalTextTaggers;
 using System.ComponentModel.Composition;
-using Microsoft.VisualStudio.PlatformUI;
 
 namespace SqlTools.Classifiers
 {
@@ -14,13 +13,13 @@ namespace SqlTools.Classifiers
     {
 #pragma warning disable 649
         [Import]
-        private IClassificationTypeRegistryService ClassificationRegistry;
+        private readonly IClassificationTypeRegistryService ClassificationRegistry;
 
         [Import]
-        private IClassificationFormatMapService ClassificationFormatMapService;
+        private readonly IClassificationFormatMapService ClassificationFormatMapService;
 
         [Import]
-        private IBufferTagAggregatorFactoryService TagAggregatorFactory;
+        private readonly IBufferTagAggregatorFactoryService TagAggregatorFactory;
 
 #pragma warning restore 649
 

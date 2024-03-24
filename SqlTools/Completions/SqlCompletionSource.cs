@@ -22,37 +22,38 @@ namespace SqlTools.Completions
     {
         private SqlCatalog Catalog { get; }
         private ITextStructureNavigatorSelectorService StructureNavigatorSelector { get; }
+
         //https://github.com/microsoft/VSSDK-Extensibility-Samples
         //http://glyphlist.azurewebsites.net/knownmonikers/
         //https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.imaging.knownimageids.operator?view=visualstudiosdk-2022
         // ImageElements may be shared by CompletionFilters and CompletionItems. The automationName parameter should be localized.
-        private static ImageElement KeywordIcon = new ImageElement(new ImageId(new Guid("ae27a6b0-e345-4288-96df-5eaf394ee369"), 1589), "Keyword");
-        private static ImageElement FunctionIcon = new ImageElement(new ImageId(new Guid("ae27a6b0-e345-4288-96df-5eaf394ee369"), 1913), "Function");
-        private static ImageElement OperatorIcon = new ImageElement(new ImageId(new Guid("ae27a6b0-e345-4288-96df-5eaf394ee369"), 2174), "Operator");
-        private static ImageElement VariableIcon = new ImageElement(new ImageId(new Guid("ae27a6b0-e345-4288-96df-5eaf394ee369"), 1747), "Variable");
-        private static ImageElement DataTypeIcon = new ImageElement(new ImageId(new Guid("ae27a6b0-e345-4288-96df-5eaf394ee369"), 616), "DataType");
-        private static ImageElement TableIcon = new ImageElement(new ImageId(new Guid("ae27a6b0-e345-4288-96df-5eaf394ee369"), 3032), "Table");
-        private static ImageElement UnknownIcon = new ImageElement(new ImageId(new Guid("ae27a6b0-e345-4288-96df-5eaf394ee369"), 2025), "Unknown");
+        private static readonly ImageElement KeywordIcon = new ImageElement(new ImageId(new Guid("ae27a6b0-e345-4288-96df-5eaf394ee369"), 1589), "Keyword");
+        private static readonly ImageElement FunctionIcon = new ImageElement(new ImageId(new Guid("ae27a6b0-e345-4288-96df-5eaf394ee369"), 1913), "Function");
+        private static readonly ImageElement OperatorIcon = new ImageElement(new ImageId(new Guid("ae27a6b0-e345-4288-96df-5eaf394ee369"), 2174), "Operator");
+        private static readonly ImageElement VariableIcon = new ImageElement(new ImageId(new Guid("ae27a6b0-e345-4288-96df-5eaf394ee369"), 1747), "Variable");
+        private static readonly ImageElement DataTypeIcon = new ImageElement(new ImageId(new Guid("ae27a6b0-e345-4288-96df-5eaf394ee369"), 616), "DataType");
+        private static readonly ImageElement TableIcon = new ImageElement(new ImageId(new Guid("ae27a6b0-e345-4288-96df-5eaf394ee369"), 3032), "Table");
+        private static readonly ImageElement UnknownIcon = new ImageElement(new ImageId(new Guid("ae27a6b0-e345-4288-96df-5eaf394ee369"), 2025), "Unknown");
 
         // CompletionFilters are rendered in the UI as buttons
         // The displayText should be localized. Alt + Access Key toggles the filter button.
-        private static CompletionFilter KeywordFilter = new CompletionFilter("Keyword", "K", KeywordIcon);
-        private static CompletionFilter FunctionFilter = new CompletionFilter("Function", "F", FunctionIcon);
-        private static CompletionFilter OperatorFilter = new CompletionFilter("Operator", "O", OperatorIcon);
-        private static CompletionFilter VariableFilter = new CompletionFilter("Variable", "V", VariableIcon);
-        private static CompletionFilter DataTypeFilter = new CompletionFilter("DataType", "D", DataTypeIcon);
-        private static CompletionFilter UnknownFilter = new CompletionFilter("Unknown", "U", UnknownIcon);
+        private static readonly CompletionFilter KeywordFilter = new CompletionFilter("Keyword", "K", KeywordIcon);
+        private static readonly CompletionFilter FunctionFilter = new CompletionFilter("Function", "F", FunctionIcon);
+        private static readonly CompletionFilter OperatorFilter = new CompletionFilter("Operator", "O", OperatorIcon);
+        private static readonly CompletionFilter VariableFilter = new CompletionFilter("Variable", "V", VariableIcon);
+        private static readonly CompletionFilter DataTypeFilter = new CompletionFilter("DataType", "D", DataTypeIcon);
+        private static readonly CompletionFilter UnknownFilter = new CompletionFilter("Unknown", "U", UnknownIcon);
 
         // CompletionItem takes array of CompletionFilters.
         // In this example, items assigned "MetalloidFilters" are visible in the list if user selects either MetalFilter or NonMetalFilter.
-        private static ImmutableArray<CompletionFilter> KeywordFilters = ImmutableArray.Create(KeywordFilter);
-        private static ImmutableArray<CompletionFilter> FunctionFilters = ImmutableArray.Create(FunctionFilter);
-        private static ImmutableArray<CompletionFilter> OperatorFilters = ImmutableArray.Create(OperatorFilter);
-        private static ImmutableArray<CompletionFilter> VariableFilters = ImmutableArray.Create(VariableFilter);
-        private static ImmutableArray<CompletionFilter> DataTypeFilters = ImmutableArray.Create(DataTypeFilter);
-        private static ImmutableArray<CompletionFilter> UnknownFilters = ImmutableArray.Create(UnknownFilter);
+        private static readonly ImmutableArray<CompletionFilter> KeywordFilters = ImmutableArray.Create(KeywordFilter);
+        private static readonly ImmutableArray<CompletionFilter> FunctionFilters = ImmutableArray.Create(FunctionFilter);
+        private static readonly ImmutableArray<CompletionFilter> OperatorFilters = ImmutableArray.Create(OperatorFilter);
+        private static readonly ImmutableArray<CompletionFilter> VariableFilters = ImmutableArray.Create(VariableFilter);
+        private static readonly ImmutableArray<CompletionFilter> DataTypeFilters = ImmutableArray.Create(DataTypeFilter);
+        private static readonly ImmutableArray<CompletionFilter> UnknownFilters = ImmutableArray.Create(UnknownFilter);
 
-        private static ImmutableArray<string> detects = ImmutableArray.Create(new string[] { "select", "insert", "delete", "update", "create", "alter", "drop", "exec", "execute", "from", "join", "where", "group", " order" });
+        private static readonly ImmutableArray<string> detects = ImmutableArray.Create(new string[] { "select", "insert", "delete", "update", "create", "alter", "drop", "exec", "execute", "from", "join", "where", "group", " order" });
 
         public SqlCompletionSource(SqlCatalog catalog, ITextStructureNavigatorSelectorService structureNavigatorSelector)
         {
@@ -170,32 +171,6 @@ namespace SqlTools.Completions
             var key = KeyExtractingRegex.Match(textBeforeCaret);
             var candidateName = key.Success ? key.Groups.Count > 0 && key.Groups[1].Success ? key.Groups[1].Value : string.Empty : string.Empty;
             return Task.FromResult(GetContextForValue(candidateName));
-            //var literals = Regex.Match(triggerLocation.Snapshot.GetText(), @"""(.*?)""", RegexOptions.Singleline);
-
-            //int index = -1;
-            //bool detected = false;
-            //if (textBeforeCaret.LastIndexOf('"') != -1 && textAfterCaret.IndexOf('"') != -1)
-            //    foreach (var detect in detects)
-            //    {
-            //        while (textCurrentLine.Length > index + 1 && (index = textCurrentLine.IndexOf(detect, index + 1)) > -1)
-            //            detected = true;
-            //    }
-
-            //if (textBeforeCaret.Length > 0 && detected)
-            //{
-            //    index = -1;
-            //    for (int i = textBeforeCaret.Length - 1; i > 0; i--)
-            //    {
-            //        if (textBeforeCaret[i] == ' ' || textBeforeCaret[i] == '(' || textBeforeCaret[i] == '.' || textBeforeCaret[i] == '"')
-            //        {
-            //            index = i;
-            //            break;
-            //        }
-            //    }
-            //    if (index != -1)
-            //        return Task.FromResult(GetContextForValue(textBeforeCaret.Substring(index + 1)));
-            //}
-            //return Task.FromResult(GetContextForValue(""));
         }
 
         private bool IsCaretInsideStringLiteral(ITextView textView, ITextBuffer textBuffer)
@@ -203,8 +178,7 @@ namespace SqlTools.Completions
             SnapshotPoint caretPosition = textView.Caret.Position.BufferPosition;
 
             // Get the syntax tree of the current document
-            SyntaxTree syntaxTree;
-            if (!textBuffer.Properties.TryGetProperty(typeof(SyntaxTree), out syntaxTree))
+            if (!textBuffer.Properties.TryGetProperty(typeof(SyntaxTree), out SyntaxTree syntaxTree))
             {
                 // If the syntax tree is not available, create and cache it
                 syntaxTree = CSharpSyntaxTree.ParseText(textBuffer.CurrentSnapshot.GetText());

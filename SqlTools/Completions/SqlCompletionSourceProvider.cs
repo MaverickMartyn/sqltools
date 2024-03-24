@@ -12,13 +12,13 @@ namespace SqlTools.Completions
     [ContentType("csharp")]
     public class SqlCompletionSourceProvider : IAsyncCompletionSourceProvider
     {
-        IDictionary<ITextView, IAsyncCompletionSource> cache = new Dictionary<ITextView, IAsyncCompletionSource>();
+        readonly IDictionary<ITextView, IAsyncCompletionSource> cache = new Dictionary<ITextView, IAsyncCompletionSource>();
 
         [Import]
-        private SqlCatalog Catalog;
+        private readonly SqlCatalog Catalog;
 
         [Import]
-        private ITextStructureNavigatorSelectorService StructureNavigatorSelector;
+        private readonly ITextStructureNavigatorSelectorService StructureNavigatorSelector;
 
         public IAsyncCompletionSource GetOrCreate(ITextView textView)
         {

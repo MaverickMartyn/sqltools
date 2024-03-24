@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.Composition;
-using Microsoft.VisualStudio.Text.Classification;
+﻿using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
+using System.ComponentModel.Composition;
 
 namespace SqlTools.Classifiers
 {
@@ -38,6 +38,7 @@ namespace SqlTools.Classifiers
         [Export(typeof(ClassificationTypeDefinition))]
         [Name("Sql-Defined")]
         internal static ClassificationTypeDefinition DefinedDefinition;
+
         [Export(typeof(ClassificationTypeDefinition))]
         [Name("Sql-Workflow")]
         internal static ClassificationTypeDefinition WorkflowDefinition;
