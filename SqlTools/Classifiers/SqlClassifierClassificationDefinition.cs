@@ -28,6 +28,14 @@ namespace SqlTools.Classifiers
         internal static ClassificationTypeDefinition LiteralDefinition;
 
         [Export(typeof(ClassificationTypeDefinition))]
+        [Name("Sql-StringLiteral")]
+        internal static ClassificationTypeDefinition StringLiteralDefinition;
+
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name("Sql-Comment")]
+        internal static ClassificationTypeDefinition CommentDefinition;
+
+        [Export(typeof(ClassificationTypeDefinition))]
         [Name("Sql-Defined")]
         internal static ClassificationTypeDefinition DefinedDefinition;
         [Export(typeof(ClassificationTypeDefinition))]

@@ -133,7 +133,13 @@ namespace SqlTools.NaturalTextTaggers.CSharp
         {
             while (!p.EndOfLine)
             {
-                if (p.Char() == '@' && p.NextChar() == '"')
+                if (p.Char() == '"' && p.NextChar() == '"' && p.NextNextChar() == '"')
+                {
+                    p.Advance(3);
+                    p.State = State.MultiLineString;
+                    ScanMultiLineString(p);
+                }
+                else if (p.Char() == '@' && p.NextChar() == '"')
                 {
                     p.Advance(2);
                     p.State = State.MultiLineString;
@@ -180,7 +186,14 @@ namespace SqlTools.NaturalTextTaggers.CSharp
             p.StartNaturalText();
             while (!p.EndOfLine)
             {
-                if (p.Char() == '"' && p.NextChar() == '"')
+                if (p.Char() == '"' && p.NextChar() == '"' && p.NextNextChar() == '"')
+                {
+                    p.EndNaturalText();
+                    p.Advance(3);
+                    p.State = State.Default;
+                    return;
+                }
+                else if (p.Char() == '"' && p.NextChar() == '"')
                     p.Advance(2);
                 else if (p.Char() == '"')
                 {

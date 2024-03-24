@@ -77,11 +77,24 @@ namespace SqlTools.Classifiers
 
         private readonly Regex defines = new Regex(@"(?:[.:])(?<Variable>[a-z0-9_]+)(?:\s*\()", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
+        private readonly Regex literals = new Regex(@"(?:^|[""\s(+,=])(?<Variable>[0-9_]+)(?:$|[""\s)+,;])", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private readonly Regex stringLiterals = new Regex(@"(?:^|[""\s(+,=])(?<Variable>'.+')(?:$|[""\s)+,;])", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
+        private readonly Regex comments = new Regex(@"(?<Variable>\-\-\s*.+)$", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private readonly Regex alternateComments = new Regex(@"(?<Variable>\/\*\s*(.+?)\*\/)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private readonly Regex multilineCommentBegin = new Regex(@"(?<Variable>\/\*\s*(.+?)((?:\*\/)|$))", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private readonly Regex multilineCommentEnd = new Regex(@"(?<Variable>(.+?)\*\/)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private readonly Regex inCommentBegin = new Regex(@"(?:\/\*.+?)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private readonly Regex inCommentEnd = new Regex(@"(?:.+?\*\/)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private readonly Regex userFunctions = new Regex(@"(?<Variable>\w+)\(.+?", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
         private readonly IClassificationType keywordType;
         private readonly IClassificationType operatorType;
         private readonly IClassificationType functionType;
         private readonly IClassificationType variableType;
         private readonly IClassificationType literalType;
+        private readonly IClassificationType stringLiteralType;
+        private readonly IClassificationType commentType;
         private readonly IClassificationType definedType;
         private readonly IClassificationType workflowType;
         readonly ITagAggregator<NaturalTextTag> tagger;
@@ -96,6 +109,8 @@ namespace SqlTools.Classifiers
             functionType = registry.GetClassificationType("Sql-Function");
             variableType = registry.GetClassificationType("Sql-Variable");
             literalType = registry.GetClassificationType("Sql-Literal");
+            stringLiteralType = registry.GetClassificationType("Sql-StringLiteral");
+            commentType = registry.GetClassificationType("Sql-Comment");
             definedType = registry.GetClassificationType("Sql-Defined");
             workflowType = registry.GetClassificationType("Sql-Workflow");
         }
@@ -108,6 +123,11 @@ namespace SqlTools.Classifiers
         {
             IList<ClassificationSpan> classifiedSpans = new List<ClassificationSpan>();
 
+            // Analyze the text before the span
+            var textSnapshot = span.Snapshot;
+            var precedingText = textSnapshot.GetText(0, span.Start.Position);
+            bool isMultiLineComment = IsInMultiLineComment(precedingText);
+
             foreach (IMappingTagSpan<NaturalTextTag> tagSpan in tagger.GetTags(span).ToList())
             {
                 SnapshotSpan snapshot = tagSpan.Span.GetSpans(span.Snapshot).First();
@@ -116,6 +136,7 @@ namespace SqlTools.Classifiers
 
                 int index = -1;
 
+                // If string literal is not multiline, check if it contains certain words before before classifying.
                 if (tagSpan.Tag.State != State.MultiLineString)
                 {
                     bool detected = false;
@@ -132,6 +153,30 @@ namespace SqlTools.Classifiers
                 }
                 //else
                 //    classifiedSpans.Add(new ClassificationSpan(new SnapshotSpan(snapshot.Start, text.Length), literalType));
+
+                // multi-line comments
+                var mlcBeginMatch = multilineCommentBegin.Match(text);
+                var mlcEndMatch = multilineCommentEnd.Match(text);
+                if (mlcBeginMatch.Success)
+                {
+                    if (!mlcBeginMatch.Groups["Variable"].Value.EndsWith("*/"))
+                        isMultiLineComment = true;
+                    classifiedSpans.Add(new ClassificationSpan(new SnapshotSpan(snapshot.Start + mlcBeginMatch.Groups["Variable"].Index, mlcBeginMatch.Groups["Variable"].Length), commentType));
+                }
+                else if (mlcEndMatch.Success)
+                {
+                    classifiedSpans.Add(new ClassificationSpan(new SnapshotSpan(snapshot.Start + mlcEndMatch.Groups["Variable"].Index, mlcEndMatch.Groups["Variable"].Length), commentType));
+                    isMultiLineComment = false;
+                }
+                else if (isMultiLineComment)
+                    classifiedSpans.Add(new ClassificationSpan(new SnapshotSpan(snapshot.Start, snapshot.Length), commentType));
+
+                if (isMultiLineComment)
+                    continue;
+
+                // comments
+                ClassifyCommentsMatches(comments.Matches(text), classifiedSpans, snapshot);
+                ClassifyCommentsMatches(alternateComments.Matches(text), classifiedSpans, snapshot);
 
                 // keywords
                 foreach (string keyword in keywords)
@@ -174,6 +219,11 @@ namespace SqlTools.Classifiers
                     }
                 }
 
+                foreach (Match match in userFunctions.Matches(text))
+                {
+                    classifiedSpans.Add(new ClassificationSpan(new SnapshotSpan(snapshot.Start + match.Groups["Variable"].Index, match.Groups["Variable"].Length), functionType));
+                }
+
                 // variables
                 foreach (Match match in variables.Matches(text))
                     classifiedSpans.Add(new ClassificationSpan(new SnapshotSpan(snapshot.Start + match.Groups["Variable"].Index, match.Groups["Variable"].Length), variableType));
@@ -181,6 +231,18 @@ namespace SqlTools.Classifiers
                 // user defined
                 foreach (Match match in defines.Matches(text))
                     classifiedSpans.Add(new ClassificationSpan(new SnapshotSpan(snapshot.Start + match.Groups["Variable"].Index, match.Groups["Variable"].Length), definedType));
+
+                // literals
+                foreach (Match match in literals.Matches(text))
+                {
+                    classifiedSpans.Add(new ClassificationSpan(new SnapshotSpan(snapshot.Start + match.Groups["Variable"].Index, match.Groups["Variable"].Length), literalType));
+                }
+
+                // string literals
+                foreach (Match match in stringLiterals.Matches(text))
+                {
+                    classifiedSpans.Add(new ClassificationSpan(new SnapshotSpan(snapshot.Start + match.Groups["Variable"].Index, match.Groups["Variable"].Length), stringLiteralType));
+                }
 
                 // operators
                 foreach (char op in operators)
@@ -192,7 +254,31 @@ namespace SqlTools.Classifiers
                 }
             }
 
-            return classifiedSpans;
+            return RemoveSpansInsideCommentsAndOutsideSnapshotSpan(classifiedSpans, span);
+                }
+
+        private IList<ClassificationSpan> RemoveSpansInsideCommentsAndOutsideSnapshotSpan(IList<ClassificationSpan> classifiedSpans, SnapshotSpan snapshotSpan)
+        {
+            var comments = classifiedSpans.Where(cs => cs.ClassificationType == commentType);
+            var others = classifiedSpans.Except(comments);
+            return classifiedSpans.Where(cs => 
+                cs.Span.OverlapsWith(snapshotSpan)
+                && (cs.ClassificationType == commentType || !comments.Any(c => c.Span.OverlapsWith(cs.Span)))).ToList();
+            }
+
+        private bool IsInMultiLineComment(string text)
+        {
+            // Logic to determine if the text ends with an open multi-line comment
+            // Compares the number of comment opening-tags, vs the number of closing-tags.
+            return inCommentBegin.Matches(text).Count > inCommentEnd.Matches(text).Count;
+        }
+
+        private void ClassifyCommentsMatches(MatchCollection matchCollection, IList<ClassificationSpan> classifiedSpans, SnapshotSpan snapshot)
+        {
+            foreach (Match match in matchCollection)
+            {
+                classifiedSpans.Add(new ClassificationSpan(new SnapshotSpan(snapshot.Start + match.Groups["Variable"].Index, match.Groups["Variable"].Length), commentType));
+            }
         }
 
         void IDisposable.Dispose()

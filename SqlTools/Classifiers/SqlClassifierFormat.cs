@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.Composition;
-using System.Windows.Media;
-using Microsoft.VisualStudio.Text.Classification;
+﻿using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
+using System.ComponentModel.Composition;
+using System.Windows.Media;
 
 namespace SqlTools.Classifiers
 {
@@ -72,6 +72,35 @@ namespace SqlTools.Classifiers
         {
             this.DisplayName = "Sql-Literal";
             this.ForegroundColor = Colors.Black;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = "Sql-StringLiteral")]
+    [Name("Sql-StringLiteral")]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.High)]
+    internal sealed class SqlStringLiteralFormat : ClassificationFormatDefinition
+    {
+        public SqlStringLiteralFormat()
+        {
+            DisplayName = "Sql-StringLiteral";
+            ForegroundColor = Colors.Black;
+            BackgroundColor = Colors.Cyan;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = "Sql-Comment")]
+    [Name("Sql-Comment")]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.High)]
+    internal sealed class SqlCommentFormat : ClassificationFormatDefinition
+    {
+        public SqlCommentFormat()
+        {
+            DisplayName = "Sql-Comment";
+            ForegroundColor = Colors.ForestGreen;
         }
     }
 

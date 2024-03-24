@@ -1,10 +1,15 @@
-﻿using Microsoft.VisualStudio.Core.Imaging;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.VisualStudio.Core.Imaging;
 using Microsoft.VisualStudio.Language.Intellisense.AsyncCompletion;
 using Microsoft.VisualStudio.Language.Intellisense.AsyncCompletion.Data;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Adornments;
+using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Operations;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -136,6 +141,11 @@ namespace SqlTools.Completions
 
         public Task<CompletionContext> GetCompletionContextAsync(IAsyncCompletionSession session, CompletionTrigger trigger, SnapshotPoint triggerLocation, SnapshotSpan applicableToSpan, CancellationToken token)
         {
+            if (!IsCaretInsideStringLiteral(session.TextView, session.TextView.TextBuffer))
+            {
+                return Task.FromResult(new CompletionContext(new List<CompletionItem>().ToImmutableArray()));
+            }
+
             // See whether we are in the key or value portion of the pair
             var lineStart = triggerLocation.GetContainingLine().Start;
             var lineEnd = triggerLocation.GetContainingLine().End;
@@ -186,6 +196,51 @@ namespace SqlTools.Completions
             //        return Task.FromResult(GetContextForValue(textBeforeCaret.Substring(index + 1)));
             //}
             //return Task.FromResult(GetContextForValue(""));
+        }
+
+        private bool IsCaretInsideStringLiteral(ITextView textView, ITextBuffer textBuffer)
+        {
+            SnapshotPoint caretPosition = textView.Caret.Position.BufferPosition;
+
+            // Get the syntax tree of the current document
+            SyntaxTree syntaxTree;
+            if (!textBuffer.Properties.TryGetProperty(typeof(SyntaxTree), out syntaxTree))
+            {
+                // If the syntax tree is not available, create and cache it
+                syntaxTree = CSharpSyntaxTree.ParseText(textBuffer.CurrentSnapshot.GetText());
+                if (syntaxTree == null)
+                {
+                    // Parsing failed, cannot determine if caret is inside string literal
+                    return false;
+                }
+                // Cache the syntax tree
+                textBuffer.Properties.AddProperty(typeof(SyntaxTree), syntaxTree);
+            }
+
+            // Get the root node of the syntax tree
+            SyntaxNode root = syntaxTree.GetRoot();
+
+            // Find the token at the caret position
+            SyntaxToken token = root.FindToken(caretPosition);
+
+            // Check if the token is a string literal token
+            if (token.IsKind(SyntaxKind.StringLiteralToken))
+            {
+                // Get the parent node of the token
+                SyntaxNode parentNode = token.Parent;
+
+                // Check if the parent node is a string literal expression
+                if (parentNode is LiteralExpressionSyntax literalExpression &&
+                    (literalExpression.Kind() == SyntaxKind.StringLiteralExpression ||
+                     literalExpression.Kind() == SyntaxKind.InterpolatedStringExpression))
+                {
+                    // The caret is inside a string literal
+                    return true;
+                }
+            }
+
+            // The caret is not inside a string literal
+            return false;
         }
 
         /// <summary>
