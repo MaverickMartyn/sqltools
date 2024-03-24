@@ -3,6 +3,7 @@ SQL syntax highlighting and completion for string literals in Visual Studio.
 
 ## Why the fork?
 This project was forked from [mojtabakaviani/sqltools](https://github.com/mojtabakaviani/sqltools), and includes a fix from [abdonkov/sqltools](https://github.com/abdonkov/sqltools).  
+The original extension can be found [here](https://marketplace.visualstudio.com/items?itemName=Mojtabakaviani.SqlTools).  
 I wanted some improvements, and the original repository seemed a bit stale.  
 Some of the additional changes include, but are not limited to:
 * Highlighting of single- and multi-line comments.
