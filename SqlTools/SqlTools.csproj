@@ -99,6 +99,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <None Include="Resources\screenshot.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Preview.png">
