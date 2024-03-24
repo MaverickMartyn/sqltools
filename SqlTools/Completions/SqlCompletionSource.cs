@@ -198,15 +198,24 @@ namespace SqlTools.Completions
             SyntaxToken token = root.FindToken(caretPosition);
 
             // Check if the token is a string literal token
-            if (token.IsKind(SyntaxKind.StringLiteralToken))
+            if (token.IsKind(SyntaxKind.StringLiteralToken)
+                || token.IsKind(SyntaxKind.InterpolatedStringToken)
+                || token.IsKind(SyntaxKind.InterpolatedStringTextToken)
+                || token.IsKind(SyntaxKind.SingleLineRawStringLiteralToken)
+                || token.IsKind(SyntaxKind.MultiLineRawStringLiteralToken)
+                || token.IsKind(SyntaxKind.Utf8StringLiteralToken)
+                || token.IsKind(SyntaxKind.Utf8SingleLineRawStringLiteralToken)
+                || token.IsKind(SyntaxKind.Utf8MultiLineRawStringLiteralToken))
             {
                 // Get the parent node of the token
                 SyntaxNode parentNode = token.Parent;
 
                 // Check if the parent node is a string literal expression
-                if (parentNode is LiteralExpressionSyntax literalExpression &&
+                if (parentNode.Kind() == SyntaxKind.InterpolatedStringText
+                    || (parentNode is LiteralExpressionSyntax literalExpression &&
                     (literalExpression.Kind() == SyntaxKind.StringLiteralExpression ||
-                     literalExpression.Kind() == SyntaxKind.InterpolatedStringExpression))
+                     literalExpression.Kind() == SyntaxKind.InterpolatedStringExpression ||
+                     literalExpression.Kind() == SyntaxKind.Utf8StringLiteralExpression)))
                 {
                     // The caret is inside a string literal
                     return true;
