@@ -73,7 +73,7 @@ namespace SqlTools.Classifiers
             "@@datefirst", "@@cursor_rows", "@@fetch_status", "@@dbts", "@@langid", "@@language", "@@lock_timeout", "@@max_connections", "@@max_precision", "@@nestlevel", "@@options", "@@remserver", "@@servername", "@@servicename", "@@textsize", "@@version"
         };
 
-        private readonly Regex variables = new Regex(@"(?:^|[""\s(+,=])(?<Variable>@[a-z0-9_]+)(?:$|[""\s)+,])", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private readonly Regex variables = new Regex(@"(?:^|[""\s(+,=])(?<Variable>@[a-z0-9_]+)(?:$|[""\s)+,;])", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
         private readonly Regex defines = new Regex(@"(?:[.:])(?<Variable>[a-z0-9_]+)(?:\s*\()", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
