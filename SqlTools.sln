@@ -1,31 +1,37 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27019.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlTools", "SqlTools\SqlTools.csproj", "{9500AA91-1E7A-4886-876B-E280E5114E4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlTools", "SqlTools\SqlTools.csproj", "{4E93E1A7-A7E0-4890-A8C4-D7FD6688183F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|arm64 = Debug|arm64
 		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|arm64 = Release|arm64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9500AA91-1E7A-4886-876B-E280E5114E4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9500AA91-1E7A-4886-876B-E280E5114E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9500AA91-1E7A-4886-876B-E280E5114E4E}.Debug|x86.ActiveCfg = Debug|x86
-		{9500AA91-1E7A-4886-876B-E280E5114E4E}.Debug|x86.Build.0 = Debug|x86
-		{9500AA91-1E7A-4886-876B-E280E5114E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9500AA91-1E7A-4886-876B-E280E5114E4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9500AA91-1E7A-4886-876B-E280E5114E4E}.Release|x86.ActiveCfg = Release|x86
-		{9500AA91-1E7A-4886-876B-E280E5114E4E}.Release|x86.Build.0 = Release|x86
+		{4E93E1A7-A7E0-4890-A8C4-D7FD6688183F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E93E1A7-A7E0-4890-A8C4-D7FD6688183F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E93E1A7-A7E0-4890-A8C4-D7FD6688183F}.Debug|arm64.ActiveCfg = Debug|arm64
+		{4E93E1A7-A7E0-4890-A8C4-D7FD6688183F}.Debug|arm64.Build.0 = Debug|arm64
+		{4E93E1A7-A7E0-4890-A8C4-D7FD6688183F}.Debug|x86.ActiveCfg = Debug|x86
+		{4E93E1A7-A7E0-4890-A8C4-D7FD6688183F}.Debug|x86.Build.0 = Debug|x86
+		{4E93E1A7-A7E0-4890-A8C4-D7FD6688183F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E93E1A7-A7E0-4890-A8C4-D7FD6688183F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E93E1A7-A7E0-4890-A8C4-D7FD6688183F}.Release|arm64.ActiveCfg = Release|arm64
+		{4E93E1A7-A7E0-4890-A8C4-D7FD6688183F}.Release|arm64.Build.0 = Release|arm64
+		{4E93E1A7-A7E0-4890-A8C4-D7FD6688183F}.Release|x86.ActiveCfg = Release|x86
+		{4E93E1A7-A7E0-4890-A8C4-D7FD6688183F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {0CC572F6-7134-4320-AEA4-4AE8602420F0}
+		SolutionGuid = {BB6C04E2-C7B7-4F49-8C4F-B4094748710B}
 	EndGlobalSection
 EndGlobal
