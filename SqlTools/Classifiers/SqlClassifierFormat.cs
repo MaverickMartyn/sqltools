@@ -71,7 +71,7 @@ namespace SqlTools.Classifiers
         public SqlLiteralFormat()
         {
             this.DisplayName = "Sql-Literal";
-            this.ForegroundColor = Colors.Black;
+            this.ForegroundColor = Colors.White;
         }
     }
 

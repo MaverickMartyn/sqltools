@@ -342,10 +342,10 @@ namespace SqlTools.Completions
             {
                 case SqlCatalog.Category.Keyword: return "a keyword";
                 case SqlCatalog.Category.Function: return "a function";
-                case SqlCatalog.Category.Operator: return "a operator";
+                case SqlCatalog.Category.Operator: return "an operator";
                 case SqlCatalog.Category.Variable: return "a variable";
                 case SqlCatalog.Category.DataType: return "a datatype";
-                default: return "an uncategorized";
+                default: return "an uncategorized element";
             }
         }
 
