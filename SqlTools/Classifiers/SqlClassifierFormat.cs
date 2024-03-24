@@ -14,8 +14,8 @@ namespace SqlTools.Classifiers
     {
         public SqlKeyworkFormat()
         {
-            this.DisplayName = "Sql-Keyword";
-            this.ForegroundColor = new Color() { R = 10, G = 100, B = 200 }; // Bluish color that is visible in light and dark default themes
+            DisplayName = "Sql-Keyword";
+            ForegroundColor = new Color() { R = 10, G = 100, B = 200 }; // Bluish color that is visible in light and dark default themes
         }
     }
 
@@ -28,8 +28,8 @@ namespace SqlTools.Classifiers
     {
         public SqlOperatorFormat()
         {
-            this.DisplayName = "Sql-Operator";
-            this.ForegroundColor = Colors.Gray;
+            DisplayName = "Sql-Operator";
+            ForegroundColor = Colors.Gray;
         }
     }
 
@@ -42,8 +42,8 @@ namespace SqlTools.Classifiers
     {
         public SqlDunctionFormat()
         {
-            this.DisplayName = "Sql-Function";
-            this.ForegroundColor = Colors.Magenta;
+            DisplayName = "Sql-Function";
+            ForegroundColor = Colors.Magenta;
         }
     }
 
@@ -56,8 +56,8 @@ namespace SqlTools.Classifiers
     {
         public SqlVariableFormat()
         {
-            this.DisplayName = "Sql-Variable";
-            this.ForegroundColor = Colors.Green;
+            DisplayName = "Sql-Variable";
+            ForegroundColor = Colors.Green;
         }
     }
 
@@ -70,8 +70,8 @@ namespace SqlTools.Classifiers
     {
         public SqlLiteralFormat()
         {
-            this.DisplayName = "Sql-Literal";
-            this.ForegroundColor = Colors.White;
+            DisplayName = "Sql-Literal";
+            ForegroundColor = new Color() { R = 156, G = 220, B = 254 };
         }
     }
 
@@ -113,8 +113,8 @@ namespace SqlTools.Classifiers
     {
         public SqlDefineFormat()
         {
-            this.DisplayName = "Sql-Defined";
-            this.ForegroundColor = new Color() { R = 116, G = 83, B = 31 };
+            DisplayName = "Sql-Defined";
+            ForegroundColor = new Color() { R = 116, G = 83, B = 31 };
         }
     }
 
@@ -127,8 +127,8 @@ namespace SqlTools.Classifiers
     {
         public SqlWorkflowFormat()
         {
-            this.DisplayName = "Sql-Workflow";
-            this.ForegroundColor = new Color() { R = 255, G = 69, B = 0 };
+            DisplayName = "Sql-Workflow";
+            ForegroundColor = new Color() { R = 255, G = 69, B = 0 };
         }
     }
 }

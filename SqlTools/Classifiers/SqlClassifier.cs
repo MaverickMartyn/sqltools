@@ -94,13 +94,13 @@ namespace SqlTools.Classifiers
         private readonly IClassificationType commentType;
         private readonly IClassificationType definedType;
         private readonly IClassificationType workflowType;
-        readonly ITagAggregator<NaturalTextTag> tagger;
-        readonly IClassificationFormatMapService service;
+        readonly ITagAggregator<NaturalTextTag> _tagger;
+        readonly IClassificationFormatMapService _service;
 
         internal SqlClassifier(ITagAggregator<NaturalTextTag> tagger, IClassificationTypeRegistryService registry, IClassificationFormatMapService format)
         {
-            this.tagger = tagger;
-            this.service = format;
+            _tagger = tagger;
+            _service = format;
             keywordType = registry.GetClassificationType("Sql-Keyword");
             operatorType = registry.GetClassificationType("Sql-Operator");
             functionType = registry.GetClassificationType("Sql-Function");
@@ -125,7 +125,7 @@ namespace SqlTools.Classifiers
             var precedingText = textSnapshot.GetText(0, span.Start.Position);
             bool isMultiLineComment = IsInMultiLineComment(precedingText);
 
-            foreach (IMappingTagSpan<NaturalTextTag> tagSpan in tagger.GetTags(span).ToList())
+            foreach (IMappingTagSpan<NaturalTextTag> tagSpan in _tagger.GetTags(span).ToList())
             {
                 SnapshotSpan snapshot = tagSpan.Span.GetSpans(span.Snapshot).First();
 

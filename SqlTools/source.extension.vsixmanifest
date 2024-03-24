@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
-	<Metadata>
-		<Identity Id="SqlTools.3348c5a7-c562-4d48-9c62-d170543ab840" Version="2.2.2" Language="en-US" Publisher="MaverickMartyn" />
-		<DisplayName>Sql Tools (Improved Fork)</DisplayName>
-		<Description xml:space="preserve">SQL syntax highlighting and completion (keywords, operators, functions and variables) in C# string literals. 
+    <Metadata>
+        <Identity Id="SqlTools.3348c5a7-c562-4d48-9c62-d170543ab840" Version="2.2.3" Language="en-US" Publisher="MaverickMartyn" />
+        <DisplayName>Sql Tools (Improved Fork)</DisplayName>
+        <Description xml:space="preserve">SQL syntax highlighting and completion (keywords, operators, functions and variables) in C# string literals. 
 Forked from mojtabakaviani/sqltools and changes included from abdonkov/sqltools.</Description>
-		<MoreInfo>https://github.com/MaverickMartyn/sqltools</MoreInfo>
-		<Icon>Resources\Icon.png</Icon>
-		<PreviewImage>Resources\Preview.png</PreviewImage>
-		<Tags>SQL, syntax highlighting, string literals</Tags>
-	</Metadata>
-	<Installation>
-		<InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0,16.0]">
-			<ProductArchitecture>x86</ProductArchitecture>
-		</InstallationTarget>
-		<InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
-			<ProductArchitecture>amd64</ProductArchitecture>
-		</InstallationTarget>
-	</Installation>
-	<Dependencies>
-		<Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
-	</Dependencies>
-	<Prerequisites>
-		<Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,18.0)" DisplayName="Visual Studio core editor" />
-	</Prerequisites>
-	<Assets>
-		<Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
-	</Assets>
+        <MoreInfo>https://github.com/MaverickMartyn/sqltools</MoreInfo>
+        <Icon>Resources\Icon.png</Icon>
+        <PreviewImage>Resources\Preview.png</PreviewImage>
+        <Tags>SQL, syntax highlighting, string literals</Tags>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0,16.0]">
+            <ProductArchitecture>x86</ProductArchitecture>
+        </InstallationTarget>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+            <ProductArchitecture>amd64</ProductArchitecture>
+        </InstallationTarget>
+    </Installation>
+    <Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+    </Dependencies>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,18.0)" DisplayName="Visual Studio core editor" />
+    </Prerequisites>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
+    </Assets>
 </PackageManifest>

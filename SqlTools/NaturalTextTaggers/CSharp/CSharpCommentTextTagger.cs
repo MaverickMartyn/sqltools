@@ -83,7 +83,7 @@ namespace SqlTools.NaturalTextTaggers.CSharp
                                        let lastUpdatedLine = RescanLines(snapshot, startLine.LineNumber, endLine.LineNumber)
                                        select new SnapshotSpan(startLine.Start, snapshot.GetLineFromLineNumber(lastUpdatedLine).End)).ToList();
             lineCacheSnapshot = snapshot;
-            EventHandler<SnapshotSpanEventArgs> tagsChanged = this.TagsChanged;
+            EventHandler<SnapshotSpanEventArgs> tagsChanged = TagsChanged;
             if (tagsChanged != null)
             {
                 foreach (SnapshotSpan item2 in list)
