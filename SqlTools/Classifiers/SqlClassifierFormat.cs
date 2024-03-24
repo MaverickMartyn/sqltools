@@ -15,7 +15,7 @@ namespace SqlTools.Classifiers
         public SqlKeyworkFormat()
         {
             this.DisplayName = "Sql-Keyword";
-            this.ForegroundColor = Colors.Blue;
+            this.ForegroundColor = new Color() { R = 10, G = 100, B = 200 }; // Bluish color that is visible in light and dark default themes
         }
     }
 

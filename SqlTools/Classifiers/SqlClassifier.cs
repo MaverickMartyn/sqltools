@@ -98,42 +98,6 @@ namespace SqlTools.Classifiers
             literalType = registry.GetClassificationType("Sql-Literal");
             definedType = registry.GetClassificationType("Sql-Defined");
             workflowType = registry.GetClassificationType("Sql-Workflow");
-
-            VSColorTheme.ThemeChanged += VSColorTheme_ThemeChanged;
-
-            UpdateThemeColors();
-        }
-
-        private void VSColorTheme_ThemeChanged(ThemeChangedEventArgs e)
-        {
-            UpdateThemeColors();
-        }
-
-        private void UpdateThemeColors()
-        {
-            var themecolor = VSColorTheme.GetThemedColor(EnvironmentColors.ToolWindowBackgroundColorKey);
-            var formatMap = service.GetClassificationFormatMap(category: "text");
-            try
-            {
-
-                formatMap.BeginBatchUpdate();
-                var oldProp = formatMap.GetTextProperties(keywordType);
-                var newProp = TextFormattingRunProperties.CreateTextFormattingRunProperties(
-                           themecolor == System.Drawing.Color.FromArgb(37, 37, 38) ? new SolidColorBrush(Color.FromRgb(86, 156, 214)) : new SolidColorBrush(Colors.Blue),
-                           oldProp.BackgroundBrush,
-                           oldProp.Typeface,
-                           null,
-                           null,
-                           oldProp.TextDecorations,
-                           oldProp.TextEffects,
-                           oldProp.CultureInfo);
-                formatMap.SetTextProperties(keywordType, newProp);
-
-            }
-            finally
-            {
-                formatMap.EndBatchUpdate();
-            }
         }
 
 #pragma warning disable 67
@@ -233,7 +197,6 @@ namespace SqlTools.Classifiers
 
         void IDisposable.Dispose()
         {
-            VSColorTheme.ThemeChanged -= VSColorTheme_ThemeChanged;
         }
 
     }
