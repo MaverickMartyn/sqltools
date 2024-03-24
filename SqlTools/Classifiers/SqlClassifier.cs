@@ -23,7 +23,7 @@ namespace SqlTools.Classifiers
 
         private readonly List<string> detects = new List<string>
         {
-            "select", "insert", "delete", "update", "merge", "create", "alter", "drop", "exec", "execute", "from", "join", "where"
+            "select", "insert", "delete", "update", "merge", "create", "alter", "drop", "exec", "execute", "from", "join", "where", "order by"
         };
 
         private readonly List<string> keywords = new List<string> {
@@ -34,7 +34,7 @@ namespace SqlTools.Classifiers
             "on", "as", "go", "database", "allocate", "deallocate", "dump", "tsequal",
             "create", "alter", "drop", "add", "column", "constraint", "cascade", "identity", "check", "nocheck", "unique",
             "table", "function", "procedure", "index", "view", "schema", "trigger", "close", "percent", "plan",
-            "declare", "set", "full", "coalesce", "collate", "varying", "nonclustered", "statistics", "national",
+            "declare", "set", "full", "collate", "varying", "nonclustered", "statistics", "national",
             "if", "begin", "else", "end", "for", "while", "goto", "break", "revert", "revoke", "browse",
             "case", "when", "then", "restrict", "kill", "load", "merge", "current",
             "transaction", "commit", "rollback", "external", "external", "raiserror", "file", "fillfactor", "read", "foreign",
