@@ -203,15 +203,17 @@ namespace SqlTools.NaturalTextTaggers.CSharp
             {
                 if (p.Char() == '"' && p.NextChar() == '"' && p.NextNextChar() == '"' && p.State == State.RawString)
                 {
+                    // End of the raw string.
                     p.EndNaturalText();
                     p.Advance(3);
                     p.State = State.Default;
                     return;
                 }
                 else if (p.Char() == '"' && p.NextChar() == '"' && p.State == State.MultiLineString)
-                    p.Advance(2);
-                else if (p.Char() == '"' && !p.State.IsMultiLine())
+                    p.Advance(2); // This is an escaped quote ("").
+                else if (p.Char() == '"' && p.State != State.RawString)
                 {
+                    // End of string, unless it is a raw string, where quotes are allowed.
                     p.EndNaturalText();
                     p.Advance();
                     p.State = State.Default;
