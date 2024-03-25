@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
+using SqlTools.ClassExtensions;
 using SqlTools.NaturalTextTaggers;
 using System;
 using System.Collections.Generic;
@@ -130,7 +131,7 @@ namespace SqlTools.Classifiers
                 int index = -1;
 
                 // If string literal is not multiline, check if it contains certain words before before classifying.
-                if (tagSpan.Tag.State != State.MultiLineString)
+                if (!tagSpan.Tag.State.IsMultiLine())
                 {
                     bool detected = false;
                     foreach (var detect in detects)
@@ -265,12 +266,12 @@ namespace SqlTools.Classifiers
             // Logic to determine if the text ends with an open multi-line comment
             // Compares the number of comment opening-tags, vs the number of closing-tags.
 
-            if (tagSpan.Tag.State != State.MultiLineString)
-                return false; // The string literal is not multiline, so neither will any SQL comments.
+            if (!tagSpan.Tag.State.IsMultiLine())
+                return false; // The string literal is not multiline, so neither will any SQL comments be.
 
             // Grab the starting position of the string literal and grab the preceeding text.
             var firstTag = _tagger.GetTags(new SnapshotSpan(span.Snapshot, 0, span.Start.Position))
-                .OrderByDescending(t => t.Span.Start.GetPoint(span.Snapshot.TextBuffer, PositionAffinity.Successor).Value.Position).TakeWhile(t => t.Tag.State == State.MultiLineString).LastOrDefault() ?? tagSpan;
+                .OrderByDescending(t => t.Span.Start.GetPoint(span.Snapshot.TextBuffer, PositionAffinity.Successor).Value.Position).TakeWhile(t => t.Tag.State == tagSpan.Tag.State).LastOrDefault() ?? tagSpan;
             var beginning = firstTag.Span.Start.GetPoint(span.Snapshot.TextBuffer, PositionAffinity.Successor).Value.Position;
             var preceedingText = span.Snapshot.GetText(beginning, span.Start.Position - beginning);
 

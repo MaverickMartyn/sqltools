@@ -45,6 +45,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ClassExtensions\MiscExtensions.cs" />
     <Compile Include="Classifiers\SqlClassifier.cs" />
     <Compile Include="Classifiers\SqlClassifierClassificationDefinition.cs" />
     <Compile Include="Classifiers\SqlClassifierFormat.cs" />

@@ -4,6 +4,7 @@
     {
         Default,
         String,
-        MultiLineString
+        MultiLineString,
+        RawString
     }
 }

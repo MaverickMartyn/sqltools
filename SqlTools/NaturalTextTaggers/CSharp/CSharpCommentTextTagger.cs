@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
+using SqlTools.ClassExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,9 +46,17 @@ namespace SqlTools.NaturalTextTaggers.CSharp
                 while (val < span.End)
                 {
                     ITextSnapshotLine line = val.GetContainingLine();
-                    State state = (line.LineNumber > 0 && lineCache[line.LineNumber] == State.MultiLineString) ? State.MultiLineString : State.Default;
+                    State state = State.Default;
+                    if (line.LineNumber > 0)
+                    {
+                        // If previous line is multiline string, assume this is the same type, and then scan the line.
+                        var prevLineState = lineCache[line.LineNumber - 1];
+                        if (prevLineState.IsMultiLine())
+                            state = prevLineState;
+                    }
+
                     List<SnapshotSpan> list = new List<SnapshotSpan>();
-                    state = ScanLine(state, line, list);
+                    ScanLine(state, line, list);
                     foreach (SnapshotSpan item in list)
                     {
                         SnapshotSpan current = item;
@@ -97,7 +106,14 @@ namespace SqlTools.NaturalTextTaggers.CSharp
         {
             int i = startLine;
             bool flag = true;
-            State state = (i > 0 && lineCache[i - 1] == State.MultiLineString) ? State.MultiLineString : State.Default;
+            State state = State.Default;
+            if (i > 0)
+            {
+                // If previous line is multiline string, assume this is the same type, and then scan the line.
+                var prevLineState = lineCache[i - 1];
+                if (state.IsMultiLine())
+                    state = prevLineState;
+            }
             for (; i < lastDirtyLine || (flag && i < snapshot.LineCount); i++)
             {
                 ITextSnapshotLine lineFromLineNumber = snapshot.GetLineFromLineNumber(i);
@@ -120,9 +136,8 @@ namespace SqlTools.NaturalTextTaggers.CSharp
                 {
                     ScanDefault(lineProgress);
                 }
-                else if (lineProgress.State == State.MultiLineString)
+                else if (lineProgress.State.IsMultiLine())
                 {
-
                     ScanMultiLineString(lineProgress);
                 }
             }
@@ -136,7 +151,7 @@ namespace SqlTools.NaturalTextTaggers.CSharp
                 if (p.Char() == '"' && p.NextChar() == '"' && p.NextNextChar() == '"')
                 {
                     p.Advance(3);
-                    p.State = State.MultiLineString;
+                    p.State = State.RawString;
                     ScanMultiLineString(p);
                 }
                 else if (p.Char() == '@' && p.NextChar() == '"')
@@ -186,16 +201,16 @@ namespace SqlTools.NaturalTextTaggers.CSharp
             p.StartNaturalText();
             while (!p.EndOfLine)
             {
-                if (p.Char() == '"' && p.NextChar() == '"' && p.NextNextChar() == '"')
+                if (p.Char() == '"' && p.NextChar() == '"' && p.NextNextChar() == '"' && p.State == State.RawString)
                 {
                     p.EndNaturalText();
                     p.Advance(3);
                     p.State = State.Default;
                     return;
                 }
-                else if (p.Char() == '"' && p.NextChar() == '"')
+                else if (p.Char() == '"' && p.NextChar() == '"' && p.State == State.MultiLineString)
                     p.Advance(2);
-                else if (p.Char() == '"')
+                else if (p.Char() == '"' && !p.State.IsMultiLine())
                 {
                     p.EndNaturalText();
                     p.Advance();
