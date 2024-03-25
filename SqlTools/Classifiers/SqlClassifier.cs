@@ -15,7 +15,7 @@ namespace SqlTools.Classifiers
         //https://github.com/EWSoftware/VSSpellChecker/
         //https://github.com/fbdegroot/SqlSyntaxHighlighting
         private readonly char[] keywordPrefixCharacters = new[] { '\t', ' ', '"', '(' };
-        private readonly char[] keywordPostfixCharacters = new[] { '\t', ' ', '"', ')', '(', ',' };
+        private readonly char[] keywordPostfixCharacters = new[] { '\t', ' ', '"', ')', '(', ',', '\'' };
         private readonly char[] functionPrefixCharacters = new[] { '\t', ' ', '"', ',', '(' };
         private readonly char[] functionPostfixCharacters = new[] { '\t', '(' };
 
