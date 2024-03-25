@@ -45,9 +45,9 @@ namespace SqlTools.NaturalTextTaggers.CSharp
                 while (val < span.End)
                 {
                     ITextSnapshotLine line = val.GetContainingLine();
-                    State state = (line.LineNumber > 0 && lineCache[line.LineNumber - 1] == State.MultiLineString) ? State.MultiLineString : State.Default;
+                    State state = (line.LineNumber > 0 && lineCache[line.LineNumber] == State.MultiLineString) ? State.MultiLineString : State.Default;
                     List<SnapshotSpan> list = new List<SnapshotSpan>();
-                    ScanLine(state, line, list);
+                    state = ScanLine(state, line, list);
                     foreach (SnapshotSpan item in list)
                     {
                         SnapshotSpan current = item;

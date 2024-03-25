@@ -82,7 +82,7 @@ namespace SqlTools.Classifiers
         private readonly Regex multilineCommentBegin = new Regex(@"(?<Variable>\/\*\s*(.+?)((?:\*\/)|$))", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private readonly Regex multilineCommentEnd = new Regex(@"(?<Variable>(.+?)\*\/)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private readonly Regex inCommentBegin = new Regex(@"(?:\/\*.+?)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-        private readonly Regex inCommentEnd = new Regex(@"(?:.+?\*\/)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private readonly Regex inCommentEnd = new Regex(@"\*\/", RegexOptions.IgnoreCase | RegexOptions.Multiline);
         private readonly Regex userFunctions = new Regex(@"(?<Variable>\w+)\(.+?", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         private readonly IClassificationType keywordType;
