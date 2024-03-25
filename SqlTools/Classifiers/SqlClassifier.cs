@@ -120,13 +120,9 @@ namespace SqlTools.Classifiers
         {
             IList<ClassificationSpan> classifiedSpans = new List<ClassificationSpan>();
 
-            // Analyze the text before the span
-            var textSnapshot = span.Snapshot;
-            var precedingText = textSnapshot.GetText(0, span.Start.Position);
-            bool isMultiLineComment = IsInMultiLineComment(precedingText);
-
             foreach (IMappingTagSpan<NaturalTextTag> tagSpan in _tagger.GetTags(span).ToList())
             {
+                bool isMultiLineComment = IsInMultiLineComment(span, tagSpan);
                 SnapshotSpan snapshot = tagSpan.Span.GetSpans(span.Snapshot).First();
 
                 string text = snapshot.GetText().ToLowerInvariant();
@@ -263,11 +259,22 @@ namespace SqlTools.Classifiers
                 && (cs.ClassificationType == commentType || !comments.Any(c => c.Span.OverlapsWith(cs.Span)))).ToList();
         }
 
-        private bool IsInMultiLineComment(string text)
+        private bool IsInMultiLineComment(SnapshotSpan span, IMappingTagSpan<NaturalTextTag> tagSpan)
         {
+            // Analyze the text before the span
             // Logic to determine if the text ends with an open multi-line comment
             // Compares the number of comment opening-tags, vs the number of closing-tags.
-            return inCommentBegin.Matches(text).Count > inCommentEnd.Matches(text).Count;
+
+            if (tagSpan.Tag.State != State.MultiLineString)
+                return false; // The string literal is not multiline, so neither will any SQL comments.
+
+            // Grab the starting position of the string literal and grab the preceeding text.
+            var firstTag = _tagger.GetTags(new SnapshotSpan(span.Snapshot, 0, span.Start.Position))
+                .OrderByDescending(t => t.Span.Start.GetPoint(span.Snapshot.TextBuffer, PositionAffinity.Successor).Value.Position).TakeWhile(t => t.Tag.State == State.MultiLineString).LastOrDefault() ?? tagSpan;
+            var beginning = firstTag.Span.Start.GetPoint(span.Snapshot.TextBuffer, PositionAffinity.Successor).Value.Position;
+            var preceedingText = span.Snapshot.GetText(beginning, span.Start.Position - beginning);
+
+            return inCommentBegin.Matches(preceedingText).Count > inCommentEnd.Matches(preceedingText).Count;
         }
 
         private void ClassifyCommentsMatches(MatchCollection matchCollection, IList<ClassificationSpan> classifiedSpans, SnapshotSpan snapshot)
