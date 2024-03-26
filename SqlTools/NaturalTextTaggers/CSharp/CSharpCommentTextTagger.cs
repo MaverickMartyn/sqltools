@@ -111,7 +111,7 @@ namespace SqlTools.NaturalTextTaggers.CSharp
             {
                 // If previous line is multiline string, assume this is the same type, and then scan the line.
                 var prevLineState = lineCache[i - 1];
-                if (state.IsMultiLine())
+                if (prevLineState.IsMultiLine())
                     state = prevLineState;
             }
             for (; i < lastDirtyLine || (flag && i < snapshot.LineCount); i++)
