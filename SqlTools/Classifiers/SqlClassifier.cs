@@ -76,7 +76,7 @@ namespace SqlTools.Classifiers
         private readonly Regex defines = new Regex(@"(?:[.:])(?<Variable>[a-z0-9_]+)(?:\s*\()", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
         private readonly Regex literals = new Regex(@"(?:^|[""\s(+,=-])(?<Variable>[0-9_.,]+)(?:$|[""\s)+,;])", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-        private readonly Regex stringLiterals = new Regex(@"(?:^|[""\s(+,=\w])(?<Variable>'.*')(?:$|[""\s)+,;])", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private readonly Regex stringLiterals = new Regex(@"(?:^|[""\s(+,=\w])(?<Variable>'.*?')(?:$|[""\s)+,;])", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
         private readonly Regex comments = new Regex(@"(?<Variable>\-\-\s*.+)$", RegexOptions.IgnoreCase | RegexOptions.Multiline);
         private readonly Regex alternateComments = new Regex(@"(?<Variable>\/\*\s*(.+?)\*\/)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
