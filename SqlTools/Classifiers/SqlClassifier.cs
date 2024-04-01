@@ -268,12 +268,13 @@ namespace SqlTools.Classifiers
 
             if (!tagSpan.Tag.State.IsMultiLine())
                 return false; // The string literal is not multiline, so neither will any SQL comments be.
-
+            
             // Grab the starting position of the string literal and grab the preceeding text.
             var firstTag = _tagger.GetTags(new SnapshotSpan(span.Snapshot, 0, span.Start.Position))
                 .OrderByDescending(t => t.Span.Start.GetPoint(span.Snapshot.TextBuffer, PositionAffinity.Successor).Value.Position).TakeWhile(t => t.Tag.State == tagSpan.Tag.State).LastOrDefault() ?? tagSpan;
             var beginning = firstTag.Span.Start.GetPoint(span.Snapshot.TextBuffer, PositionAffinity.Successor).Value.Position;
-            var preceedingText = span.Snapshot.GetText(beginning, span.Start.Position - beginning);
+            var currentPosition = tagSpan.Span.Start.GetPoint(span.Snapshot.TextBuffer, PositionAffinity.Successor).Value.Position;
+            var preceedingText = span.Snapshot.GetText(beginning, currentPosition - beginning);
 
             return inCommentBegin.Matches(preceedingText).Count > inCommentEnd.Matches(preceedingText).Count;
         }
