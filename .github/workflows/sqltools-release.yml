@@ -1,9 +1,12 @@
-name: Build extension (Release)
+name: Build and Publish
 
 on:
   push:
+    branches: [ main ]
     tags:
       - v2.**
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
@@ -26,8 +29,17 @@ jobs:
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
           script: |
-            return new RegExp("\/?refs\/tags\/v(?<version>.*)").exec(context.payload.ref).groups.version;
+            const versionRegex = new RegExp("\/?refs\/tags\/v(?<version>.*)");
+            var matches = versionRegex.exec(context.payload.ref);
+            if (!!matches && !!matches.groups && !!matches.groups.version)
+              return matches.groups.version;
+            var reqRes = await github.request('GET /repos/MaverickMartyn/SqlTools/tags', { owner: 'MaverickMartyn', repo: 'SqlTools', headers: {'X-GitHub-Api-Version': '2022-11-28'}});
+            var latestTag = reqRes.data.filter((t) => /v[0-9]+.[0-9]+.[0-9]+/.test(t.name)).sort((t1, t2) => t1.name.localeCompare(t2.name)).reverse()[0];
+            if (!!latestTag)
+              return latestTag.name.replace("v", "");
+            return "1.0.0";
 
       - name: Echo version
         run: echo ${{ steps.tag.outputs.result }}
@@ -47,7 +59,7 @@ jobs:
       - name: Build
         run: msbuild /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v3
         with:
           name: SqlTools.vsix
           path: SqlTools\bin\Release\SqlTools.vsix
@@ -58,7 +70,12 @@ jobs:
             ForEach-Object {$_ -Replace 'SqlTools/Resources', 'https://github.com/MaverickMartyn/sqltools/raw/main/SqlTools/Resources'} |
               Set-Content -Path README.md
 
-      - name: Publish extension to Marketplace
+  publish:
+    runs-on: windows-latest,
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Publish extension to Marketplace (only on release builds)
         uses: cezarypiatek/VsixPublisherAction@1.1
         with:
             extension-file: SqlTools\bin\Release\SqlTools.vsix

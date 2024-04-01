@@ -338,3 +338,9 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Workflow secrets file.
+.secrets
+
+# Workflow environment file.
+.env
