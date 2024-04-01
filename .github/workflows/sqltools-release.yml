@@ -86,6 +86,6 @@ jobs:
       - name: Publish extension to Marketplace (only on release builds)
         uses: cezarypiatek/VsixPublisherAction@1.1
         with:
-            extension-file: SqlTools\bin\Release\SqlTools.vsix
+            extension-file: SqlTools.vsix
             publish-manifest-file: publishManifest.json
             personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}
