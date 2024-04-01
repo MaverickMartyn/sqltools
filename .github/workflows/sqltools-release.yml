@@ -3,7 +3,7 @@ name: Build extension (Release)
 on:
   push:
     tags:
-      - v1.**
+      - 1.**
 
 jobs:
   build:
