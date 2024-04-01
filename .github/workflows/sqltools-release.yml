@@ -3,7 +3,7 @@ name: Build extension (Release)
 on:
   push:
     tags:
-      - v1.**
+      - v2.**
 
 jobs:
   build:
@@ -23,11 +23,12 @@ jobs:
       
       - name: Extract version from tag
         id: tag
-        uses: actions/github-script@0.2.0
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             return new RegExp("\/?refs\/tags\/v(?<version>.*)").exec(context.payload.ref).groups.version;
+
       - name: Echo version
         run: echo ${{ steps.tag.outputs.result }}
 
