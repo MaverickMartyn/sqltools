@@ -1,4 +1,9 @@
 # SqlTools
+![Workflow badge](https://github.com/MaverickMartyn/sqltools/actions/workflows/sqltools-release.yml/badge.svg)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/MaverickMartyn/sqltools)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/MaverickMartyn/sqltools)
+![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/maverickmartyn.sqltools-improved?logo=visualstudio)
+![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/maverickmartyn.sqltools-improved?logo=visualstudio)  
 SQL syntax highlighting and completion for string literals in Visual Studio.
 
 ## Why the fork?
