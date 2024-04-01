@@ -1,0 +1,27 @@
+{
+    "$schema": "http://json.schemastore.org/vsix-publish",
+    "categories": [
+        "coding",
+        "programming languages"
+    ],
+    "identity": {
+        "internalName": "sqltools-improved",
+        "tags": [
+            "string literals",
+            "syntax highlighting",
+            "c#",
+            "csharp",
+            "highlighting",
+            "literals",
+            "SQL",
+            "string",
+            "syntax"
+        ]
+    },
+    "overview": "README.md",
+    "priceCategory": "free",
+    "publisher": "MaverickMartyn",
+    "private": false,
+    "qna": true,
+    "repo": "https://github.com/MaverickMartyn/sqltools"
+}

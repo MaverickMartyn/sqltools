@@ -1,0 +1,59 @@
+name: Build extension (Release)
+
+on:
+  push:
+    tags:
+      - v1.**
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Add msbuild to PATH
+        uses: actions/setup-node@v4
+        
+      - name: Add nuget to PATH
+        uses: nuget/setup-nuget@v2
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1.3
+      
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+
+      - name: Update version numbers
+        run: |
+          (Get-Content -Path SqlTools\source.extension.vsixmanifest) |
+            ForEach-Object {$_ -Replace '2.2.7', '${{ steps.get_version.outputs.VERSION }}'} |
+              Set-Content -Path SqlTools\source.extension.vsixmanifest
+          (Get-Content -Path SqlTools\Properties\AssemblyInfo.cs) |
+            ForEach-Object {$_ -Replace '2.2.7', '${{ steps.get_version.outputs.VERSION }}'} |
+              Set-Content -Path SqlTools\Properties\AssemblyInfo.cs
+
+      - name: Restore
+        run: nuget restore
+
+      - name: Build
+        run: msbuild /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SqlTools.vsix
+          path: SqlTools\bin\Release\SqlTools.vsix
+
+      - name: Convert resource URLs to absolute.
+        run: |
+          (Get-Content -Path SqlTools\README.md) |
+            ForEach-Object {$_ -Replace 'SqlTools/Resources', 'https://github.com/MaverickMartyn/sqltools/raw/main/SqlTools/Resources'} |
+              Set-Content -Path SqlTools\README.md
+
+      - name: Publish extension to Marketplace
+        uses: cezarypiatek/VsixPublisherAction@1.1
+        with:
+            extension-file: SqlTools\bin\Release\SqlTools.vsix
+            publish-manifest-file: src\MappingGenerator.Vsix\publishManifest.json
+            personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}
