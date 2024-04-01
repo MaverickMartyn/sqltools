@@ -75,6 +75,14 @@ jobs:
     needs: build
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Download VSIX artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: SqlTools.vsix
+
       - name: Publish extension to Marketplace (only on release builds)
         uses: cezarypiatek/VsixPublisherAction@1.1
         with:
