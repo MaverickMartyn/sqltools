@@ -20,7 +20,7 @@ jobs:
         uses: nuget/setup-nuget@v2
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1.3
+        uses: microsoft/setup-msbuild@v2
 
       - name: Update version numbers
         run: |
