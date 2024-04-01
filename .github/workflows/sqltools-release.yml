@@ -47,9 +47,9 @@ jobs:
 
       - name: Convert resource URLs to absolute.
         run: |
-          (Get-Content -Path SqlTools\README.md) |
+          (Get-Content -Path README.md) |
             ForEach-Object {$_ -Replace 'SqlTools/Resources', 'https://github.com/MaverickMartyn/sqltools/raw/main/SqlTools/Resources'} |
-              Set-Content -Path SqlTools\README.md
+              Set-Content -Path README.md
 
       - name: Publish extension to Marketplace
         uses: cezarypiatek/VsixPublisherAction@1.1

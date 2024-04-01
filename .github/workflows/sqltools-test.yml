@@ -21,18 +21,14 @@ jobs:
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1.3
-      
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
       - name: Update version numbers
         run: |
           (Get-Content -Path SqlTools\source.extension.vsixmanifest) |
-            ForEach-Object {$_ -Replace '2.2.7', '${{ steps.get_version.outputs.VERSION }}'} |
+            ForEach-Object {$_ -Replace '2.2.7', '1.3.${{ github.run_number }}'} |
               Set-Content -Path SqlTools\source.extension.vsixmanifest
           (Get-Content -Path SqlTools\Properties\AssemblyInfo.cs) |
-            ForEach-Object {$_ -Replace '2.2.7', '${{ steps.get_version.outputs.VERSION }}'} |
+            ForEach-Object {$_ -Replace '2.2.7', '1.3.${{ github.run_number }}'} |
               Set-Content -Path SqlTools\Properties\AssemblyInfo.cs
 
       - name: Restore
@@ -45,3 +41,9 @@ jobs:
         with:
           name: SqlTools.vsix
           path: SqlTools\bin\Release\SqlTools.vsix
+
+      - name: Convert resource URLs to absolute.
+        run: |
+          (Get-Content -Path README.md) |
+            ForEach-Object {$_ -Replace 'SqlTools/Resources', 'https://github.com/MaverickMartyn/sqltools/raw/main/SqlTools/Resources'} |
+              Set-Content -Path README.md
