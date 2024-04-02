@@ -16,7 +16,7 @@ Some of the additional changes include, but are not limited to:
 * Project updated to remove remnants of older project formats.
 * General code clean-up and misc. minor fixes.
 
-The latest release can be found on the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=MaverickMartyn.sqltools-improved).
+**The latest release can be found on the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=MaverickMartyn.sqltools-improved).**
 
 ## What it looks like
 ![Screenshot of the extension in action.](SqlTools/Resources/screenshot.png "The extension in action.")
