@@ -1,9 +1,9 @@
 # SqlTools
-![Workflow badge](https://github.com/MaverickMartyn/sqltools/actions/workflows/sqltools-release.yml/badge.svg)
-![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/MaverickMartyn/sqltools)
-![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/MaverickMartyn/sqltools)
-![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/maverickmartyn.sqltools-improved?logo=visualstudio)
-![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/maverickmartyn.sqltools-improved?logo=visualstudio)  
+[![Workflow badge](https://github.com/MaverickMartyn/sqltools/actions/workflows/sqltools-release.yml/badge.svg)](https://github.com/MaverickMartyn/sqltools/actions/workflows/sqltools-release.yml)
+[![GitHub Issues](https://img.shields.io/github/issues/MaverickMartyn/sqltools)](https://github.com/MaverickMartyn/sqltools/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/MaverickMartyn/sqltools)](https://github.com/MaverickMartyn/sqltools/pulls)
+[![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/maverickmartyn.sqltools-improved?logo=visualstudio)](https://marketplace.visualstudio.com/items?itemName=MaverickMartyn.sqltools-improved)
+[![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/maverickmartyn.sqltools-improved?logo=visualstudio)](https://marketplace.visualstudio.com/items?itemName=MaverickMartyn.sqltools-improved)  
 SQL syntax highlighting and completion for string literals in Visual Studio.
 
 ## Why the fork?

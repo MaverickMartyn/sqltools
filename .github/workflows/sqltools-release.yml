@@ -64,12 +64,6 @@ jobs:
           name: SqlTools.vsix
           path: SqlTools\bin\Release\SqlTools.vsix
 
-      - name: Convert resource URLs to absolute.
-        run: |
-          (Get-Content -Path README.md) |
-            ForEach-Object {$_ -Replace 'SqlTools/Resources', 'https://github.com/MaverickMartyn/sqltools/raw/main/SqlTools/Resources'} |
-              Set-Content -Path README.md
-
   publish:
     runs-on: windows-latest
     needs: build
@@ -77,6 +71,12 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
+
+      - name: Convert resource URLs to absolute.
+        run: |
+          (Get-Content -Path README.md) |
+            ForEach-Object {$_ -Replace 'SqlTools/Resources', 'https://github.com/MaverickMartyn/sqltools/raw/main/SqlTools/Resources'} |
+              Set-Content -Path README.md
 
       - name: Download VSIX artifact
         uses: actions/download-artifact@v3
