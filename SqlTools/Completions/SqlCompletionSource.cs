@@ -211,11 +211,11 @@ namespace SqlTools.Completions
                 SyntaxNode parentNode = token.Parent;
 
                 // Check if the parent node is a string literal expression
-                if (parentNode.Kind() == SyntaxKind.InterpolatedStringText
+                if (parentNode.IsKind(SyntaxKind.InterpolatedStringText)
                     || (parentNode is LiteralExpressionSyntax literalExpression &&
-                    (literalExpression.Kind() == SyntaxKind.StringLiteralExpression ||
-                     literalExpression.Kind() == SyntaxKind.InterpolatedStringExpression ||
-                     literalExpression.Kind() == SyntaxKind.Utf8StringLiteralExpression)))
+                    (literalExpression.IsKind(SyntaxKind.StringLiteralExpression) ||
+                     literalExpression.IsKind(SyntaxKind.InterpolatedStringExpression) ||
+                     literalExpression.IsKind(SyntaxKind.Utf8StringLiteralExpression))))
                 {
                     // The caret is inside a string literal
                     return true;
