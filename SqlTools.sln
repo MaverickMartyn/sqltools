@@ -7,15 +7,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlTools", "SqlTools\SqlToo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1F8D69EA-795E-46F5-B126-92BA02F2FC82}"
 	ProjectSection(SolutionItems) = preProject
-		publishManifest.json = publishManifest.json
-		README.md = README.md
-		LICENSE.md = LICENSE.md
-		.gitignore = .gitignore
 		.env = .env
 		.gitattributes = .gitattributes
+		.gitignore = .gitignore
 		.secrets = .secrets
 		default.env = default.env
 		default.secrets = default.secrets
+		LICENSE.md = LICENSE.md
+		publishManifest.json = publishManifest.json
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{7BDB96FF-A592-40A7-AFAB-3B716A884F46}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{D3D2DAF5-40AA-4BDB-A3F7-9B06A56CDD28}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\sqltools-release.yml = .github\workflows\sqltools-release.yml
 	EndProjectSection
 EndProject
 Global
@@ -43,6 +53,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7BDB96FF-A592-40A7-AFAB-3B716A884F46} = {1F8D69EA-795E-46F5-B126-92BA02F2FC82}
+		{D3D2DAF5-40AA-4BDB-A3F7-9B06A56CDD28} = {7BDB96FF-A592-40A7-AFAB-3B716A884F46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BB6C04E2-C7B7-4F49-8C4F-B4094748710B}
