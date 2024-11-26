@@ -1,7 +1,7 @@
 # SqlTools
 [![Workflow badge](https://github.com/MaverickMartyn/sqltools/actions/workflows/sqltools-release.yml/badge.svg)](https://github.com/MaverickMartyn/sqltools/actions/workflows/sqltools-release.yml)
 [![GitHub Issues](https://badgen.net/github/open-issues/MaverickMartyn/sqltools)](https://github.com/MaverickMartyn/sqltools/issues)
-[![Dependabot Enabled](https://badgen.net/static/dependabot/Enabled?icon=dependabot)](https://github.com/MaverickMartyn/sqltools/pulls?q=is%3Aopen+is%3Apr+label%3Adependencies)
+[![Dependabot Enabled](https://badgen.net/github/dependabot/MaverickMartyn/sqltools?icon=dependabot)](https://github.com/MaverickMartyn/sqltools/pulls/app%2Fdependabot)
 [![GitHub Pull Requests](https://badgen.net/github/open-prs/MaverickMartyn/sqltools)](https://github.com/MaverickMartyn/sqltools/pulls)  
 [![Visual Studio Marketplace Installs](https://badgen.net/vs-marketplace/d/maverickmartyn.sqltools-improved?icon=visualstudio)](https://marketplace.visualstudio.com/items?itemName=MaverickMartyn.sqltools-improved)
 [![Visual Studio Marketplace Installs](https://badgen.net/vs-marketplace/i/maverickmartyn.sqltools-improved?icon=visualstudio)](https://marketplace.visualstudio.com/items?itemName=MaverickMartyn.sqltools-improved)
