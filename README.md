@@ -13,6 +13,7 @@ I wanted some improvements, and the original repository seemed a bit stale.
 Some of the additional changes include, but are not limited to:
 * Highlighting of single- and multi-line comments.
 * Auto-completion suggestions only show up when the cursor is inside a string literal.
+* Suggestions can be disabled in `Tools`->`Options...`->`Sql Tools`
 * Project updated to remove remnants of older project formats.
 * General code clean-up and misc. minor fixes.
 

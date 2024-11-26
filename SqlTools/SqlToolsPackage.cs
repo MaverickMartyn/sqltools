@@ -30,7 +30,7 @@ namespace SqlTools
     [Guid(PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideOptionPage(typeof(SqlToolsOptionPageGrid), "SqlTools", "General", 0, 0, true)]
+    [ProvideOptionPage(typeof(SqlToolsOptionPageGrid), "Sql Tools", "General", 0, 0, true)]
     [ProvideAutoLoad(PackageGuidString, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideService((typeof(SqlToolsPackage)), IsAsyncQueryable = true)]
     public sealed class SqlToolsPackage : AsyncPackage
