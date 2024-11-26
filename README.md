@@ -1,9 +1,12 @@
 # SqlTools
 [![Workflow badge](https://github.com/MaverickMartyn/sqltools/actions/workflows/sqltools-release.yml/badge.svg)](https://github.com/MaverickMartyn/sqltools/actions/workflows/sqltools-release.yml)
-[![GitHub Issues](https://img.shields.io/github/issues/MaverickMartyn/sqltools)](https://github.com/MaverickMartyn/sqltools/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/MaverickMartyn/sqltools)](https://github.com/MaverickMartyn/sqltools/pulls)
-[![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/maverickmartyn.sqltools-improved?logo=visualstudio)](https://marketplace.visualstudio.com/items?itemName=MaverickMartyn.sqltools-improved)
-[![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/maverickmartyn.sqltools-improved?logo=visualstudio)](https://marketplace.visualstudio.com/items?itemName=MaverickMartyn.sqltools-improved)  
+[![GitHub Issues](https://badgen.net/github/open-issues/MaverickMartyn/sqltools)](https://github.com/MaverickMartyn/sqltools/issues)
+[![Dependabot Enabled](https://badgen.net/static/dependabot/Enabled?icon=dependabot)](https://github.com/MaverickMartyn/sqltools/pulls?q=is%3Aopen+is%3Apr+label%3Adependencies)
+[![GitHub Pull Requests](https://badgen.net/github/open-prs/MaverickMartyn/sqltools)](https://github.com/MaverickMartyn/sqltools/pulls)  
+[![Visual Studio Marketplace Installs](https://badgen.net/vs-marketplace/d/maverickmartyn.sqltools-improved?icon=visualstudio)](https://marketplace.visualstudio.com/items?itemName=MaverickMartyn.sqltools-improved)
+[![Visual Studio Marketplace Installs](https://badgen.net/vs-marketplace/i/maverickmartyn.sqltools-improved?icon=visualstudio)](https://marketplace.visualstudio.com/items?itemName=MaverickMartyn.sqltools-improved)
+[![Visual Studio Marketplace Rating](https://badgen.net/vs-marketplace/rating/maverickmartyn.sqltools-improved?icon=visualstudio)](https://marketplace.visualstudio.com/items?itemName=MaverickMartyn.sqltools-improved)
+[![MIT License](https://badgen.net/static/license/MIT)](https://github.com/MaverickMartyn/sqltools/blob/main/LICENSE.md)  
 SQL syntax highlighting and completion for string literals in Visual Studio.
 
 ## Why the fork?
