@@ -15,7 +15,7 @@ namespace SqlTools.Classifiers
         //https://github.com/EWSoftware/VSSpellChecker/
         //https://github.com/fbdegroot/SqlSyntaxHighlighting
         private readonly char[] keywordPrefixCharacters = new[] { '\t', ' ', '"', '(' };
-        private readonly char[] keywordPostfixCharacters = new[] { '\t', ' ', '"', ')', '(', ',', '\'' };
+        private readonly char[] keywordPostfixCharacters = new[] { '\t', ' ', '"', ')', '(', ',', '\'', ';' };
         private readonly char[] functionPrefixCharacters = new[] { '\t', ' ', '"', ',', '(' };
         private readonly char[] functionPostfixCharacters = new[] { '\t', '(' };
 
@@ -178,7 +178,7 @@ namespace SqlTools.Classifiers
                     while (snapshot.Length > index + 1 && (index = text.IndexOf(keyword, index + 1)) > -1)
                     {
                         if ((index > 0 && !keywordPrefixCharacters.Contains(text[index - 1])) ||
-                            (index + keyword.Length < text.Length && keywordPostfixCharacters.Contains(text[index + keyword.Length]) == false))
+                            (index + keyword.Length < text.Length && !keywordPostfixCharacters.Contains(text[index + keyword.Length])))
                             continue;
 
                         classifiedSpans.Add(new ClassificationSpan(new SnapshotSpan(snapshot.Start + index, keyword.Length), keywordType));
