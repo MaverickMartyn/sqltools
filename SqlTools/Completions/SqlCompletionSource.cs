@@ -151,6 +151,8 @@ namespace SqlTools.Completions
                 _optionsDialog = package.GetDialogPage(typeof(SqlToolsOptionPageGrid)) as SqlToolsOptionPageGrid;
             }
 
+            // TODO: Add check to avoid autocomplete in SQL comments and member names.
+
             if (!_optionsDialog.EnableAutoCompleteSuggestions || !IsCaretInsideStringLiteral(session.TextView, session.TextView.TextBuffer))
             {
                 return await Task.FromResult(new CompletionContext(new List<CompletionItem>().ToImmutableArray()));
