@@ -4,10 +4,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio.Core.Imaging;
 using Microsoft.VisualStudio.Language.Intellisense.AsyncCompletion;
 using Microsoft.VisualStudio.Language.Intellisense.AsyncCompletion.Data;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Adornments;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Operations;
+using SqlTools.Options;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -54,6 +56,7 @@ namespace SqlTools.Completions
         private static readonly ImmutableArray<CompletionFilter> UnknownFilters = ImmutableArray.Create(UnknownFilter);
 
         private static readonly ImmutableArray<string> detects = ImmutableArray.Create(new string[] { "select", "insert", "delete", "update", "create", "alter", "drop", "exec", "execute", "from", "join", "where", "group", " order" });
+        private SqlToolsOptionPageGrid _optionsDialog;
 
         public SqlCompletionSource(SqlCatalog catalog, ITextStructureNavigatorSelectorService structureNavigatorSelector)
         {
@@ -140,11 +143,17 @@ namespace SqlTools.Completions
             return new SnapshotSpan(tokenSpan.GetStartPoint(snapshot) + startOffset, tokenSpan.GetEndPoint(snapshot) - endOffset);
         }
 
-        public Task<CompletionContext> GetCompletionContextAsync(IAsyncCompletionSession session, CompletionTrigger trigger, SnapshotPoint triggerLocation, SnapshotSpan applicableToSpan, CancellationToken token)
+        public async Task<CompletionContext> GetCompletionContextAsync(IAsyncCompletionSession session, CompletionTrigger trigger, SnapshotPoint triggerLocation, SnapshotSpan applicableToSpan, CancellationToken token)
         {
-            if (!IsCaretInsideStringLiteral(session.TextView, session.TextView.TextBuffer))
+            if (_optionsDialog is null)
             {
-                return Task.FromResult(new CompletionContext(new List<CompletionItem>().ToImmutableArray()));
+                var package = await AsyncServiceProvider.GlobalProvider.GetServiceAsync(typeof(SqlToolsPackage)) as SqlToolsPackage;
+                _optionsDialog = package.GetDialogPage(typeof(SqlToolsOptionPageGrid)) as SqlToolsOptionPageGrid;
+            }
+
+            if (!_optionsDialog.EnableAutoCompleteSuggestions || !IsCaretInsideStringLiteral(session.TextView, session.TextView.TextBuffer))
+            {
+                return await Task.FromResult(new CompletionContext(new List<CompletionItem>().ToImmutableArray()));
             }
 
             // See whether we are in the key or value portion of the pair
@@ -164,13 +173,13 @@ namespace SqlTools.Completions
 
             // User is likely in the key portion of the pair
             if (!colonExistsBeforeCaret)
-                return Task.FromResult(GetContextForKey());
+                return await Task.FromResult(GetContextForKey());
 
             // User is likely in the value portion of the pair. Try to provide extra items based on the key.
             var KeyExtractingRegex = new Regex(@"^""[\W*|\s*](\w+)[\W*|\s*]$");
             var key = KeyExtractingRegex.Match(textBeforeCaret);
             var candidateName = key.Success ? key.Groups.Count > 0 && key.Groups[1].Success ? key.Groups[1].Value : string.Empty : string.Empty;
-            return Task.FromResult(GetContextForValue(candidateName));
+            return await Task.FromResult(GetContextForValue(candidateName));
         }
 
         private bool IsCaretInsideStringLiteral(ITextView textView, ITextBuffer textBuffer)
