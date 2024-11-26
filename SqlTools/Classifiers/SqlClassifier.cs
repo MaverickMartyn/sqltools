@@ -44,7 +44,7 @@ namespace SqlTools.Classifiers
             "char", "varchar", "text", "nchar", "nvarchar", "ntext", "grant", "deny",
             "binary", "varbinary", "image", "using",
             "cursor", "hierarchyid", "uniqueidentifier", "sql_variant", "xml",
-            "pivot", "unpivot"
+            "pivot", "unpivot", "loop"
         };
 
         private readonly char[] operators = new char[]
