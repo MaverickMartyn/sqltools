@@ -6,7 +6,6 @@ namespace SqlTools.Classifiers
 {
     internal static class SqlClassifierClassificationDefinition
     {
-#pragma warning disable 169
         [Export(typeof(ClassificationTypeDefinition))]
         [Name("Sql-Keyword")]
         internal static ClassificationTypeDefinition KeywordDefinition;
@@ -42,6 +41,5 @@ namespace SqlTools.Classifiers
         [Export(typeof(ClassificationTypeDefinition))]
         [Name("Sql-Workflow")]
         internal static ClassificationTypeDefinition WorkflowDefinition;
-#pragma warning restore 169
     }
 }

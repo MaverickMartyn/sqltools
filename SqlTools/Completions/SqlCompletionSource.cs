@@ -160,16 +160,10 @@ namespace SqlTools.Completions
 
             // See whether we are in the key or value portion of the pair
             var lineStart = triggerLocation.GetContainingLine().Start;
-            var lineEnd = triggerLocation.GetContainingLine().End;
 
             var spanBeforeCaret = new SnapshotSpan(lineStart, triggerLocation);
             var textBeforeCaret = triggerLocation.Snapshot.GetText(spanBeforeCaret);
 
-            var spanCurrentCaret = new SnapshotSpan(lineStart, lineEnd);
-            var textCurrentLine = triggerLocation.Snapshot.GetText(spanCurrentCaret).ToLower();
-
-            var spanAfterCaret = new SnapshotSpan(triggerLocation, lineEnd);
-            var textAfterCaret = triggerLocation.Snapshot.GetText(spanAfterCaret);
             var colonIndex = textBeforeCaret.IndexOf(':');
             var colonExistsBeforeCaret = colonIndex != -1;
 

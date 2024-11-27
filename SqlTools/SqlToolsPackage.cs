@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using SqlTools.Options;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,7 +27,6 @@ namespace SqlTools
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid(PackageGuidString)]
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(SqlToolsOptionPageGrid), "Sql Tools", "General", 0, 0, true)]
     [ProvideAutoLoad(PackageGuidString, PackageAutoLoadFlags.BackgroundLoad)]
