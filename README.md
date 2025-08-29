@@ -1,3 +1,5 @@
+test
+
 # SqlTools
 [![Workflow badge](https://github.com/MaverickMartyn/sqltools/actions/workflows/sqltools-release.yml/badge.svg)](https://github.com/MaverickMartyn/sqltools/actions/workflows/sqltools-release.yml)
 [![GitHub Issues](https://badgen.net/github/open-issues/MaverickMartyn/sqltools)](https://github.com/MaverickMartyn/sqltools/issues)
